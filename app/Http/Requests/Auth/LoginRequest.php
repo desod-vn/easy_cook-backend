@@ -26,7 +26,7 @@ class LoginRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng không bỏ trống tên tài khoản.',
             
-            'password.confirmed' => 'Vui lòng nhập 2 mật khẩu trùng nhau.',
+            'password.required' => 'Vui lòng không bỏ trống mật khẩu.',
         ];
     }
 }

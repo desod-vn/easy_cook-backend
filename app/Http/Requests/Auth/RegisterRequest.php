@@ -33,7 +33,7 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'Địa chỉ email đã tồn tại, vui lòng kiểm tra lại.',
 
             'password.required' => 'Vui lòng không bỏ trống mật khẩu.',
-            'password.min' => 'Vui lòng nhập mật khẩu lớn hơn 6 ký tự.',
+            'password.min' => 'Vui lòng nhập mật khẩu lớn hơn :min ký tự.',
             'password.confirmed' => 'Vui lòng nhập 2 mật khẩu trùng nhau.',
         ];
     }

@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('content');
-            $table->string('image')->nullable();
+            $table->string('image')->default('https://i.imgur.com/BF3ty6o.jpg');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
