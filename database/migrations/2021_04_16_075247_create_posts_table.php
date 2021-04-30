@@ -16,13 +16,10 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
             $table->string('content');
+            $table->string('slug');
+            $table->softDeletes();
             $table->string('image')->default('https://i.imgur.com/BF3ty6o.jpg');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

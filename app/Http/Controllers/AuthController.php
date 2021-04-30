@@ -20,9 +20,12 @@ class AuthController extends Controller
         $user->fill($request->all());
         $user->password = Hash::make($request->password);
         $user->save();
+        $user->token = $user->createToken('App')->accessToken;
 
         return response()->json([
-            'message' => 'Register success',
+            'message' => 'Đăng ký thành công.',
+            'status' => true,
+            'user' => $user,
         ]);
     }
 
@@ -35,13 +38,15 @@ class AuthController extends Controller
             $user->token = $user->createToken('App')->accessToken;
 
             return response()->json([
-                'message' => 'Login success',
+                'message' => 'Đăng nhập thành công.',
+                'status' => true,
                 'user' => $user,
             ]);
         }
        
         return response()->json([
-            'message' => 'Unauthenticated.',
+            'message' => 'Tên tài khoản hoặc mật khẩu không chính xác.',
+            'status' => false,
         ]); 
     }
 
@@ -52,9 +57,20 @@ class AuthController extends Controller
         {
             Auth::user()->token()->revoke();
             return response()->json([
-                'message' => 'Logout success',
+                'message' => 'Đăng xuất thành công.',
+                'status' => true,
             ]);
         }
-        
+    }
+
+    // Thông tin
+    public function information()
+    {
+        $user = Auth::user();
+
+        return response()->json([
+            'status' => true,
+            'user' => $user,
+        ]); 
     }
 }

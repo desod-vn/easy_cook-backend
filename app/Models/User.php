@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, HasApiTokens, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
+
 
     protected $fillable = [
         'name',
@@ -27,7 +30,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function posts(){
-        return $this->hasMany('App\Models\Post');
+    public function posts()
+    {
+        return $this->belongsToMany('App\Models\Post');
+    }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany('App\Models\Ingredient');
     }
 }

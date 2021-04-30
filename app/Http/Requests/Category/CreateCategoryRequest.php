@@ -18,20 +18,14 @@ class CreateCategoryRequest extends FormRequest
         return [
             //
             'name' => 'required|min:6',
-            'image' => 'required|image|max:2048|mimes:jpeg,png,jpg',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Vui lòng không bỏ trống tên thư mục.',
-            'name.min' => 'Vui lòng nhập tên thư mục lớn hơn :min ký tự.',
-
-            'image.required' => 'Vui lòng không bỏ trống ảnh thư mục.',
-            'image.image' => 'Vui lòng chỉ upload file ảnh.',
-            'image.max' => 'Vui lòng chỉ upload ảnh dưới :max kb.',
-            'image.mimes' => 'Vui lòng xem lại định dạng ảnh, chỉ hỗ trợ :jpeg,jpg,png.',
+            'name.required' => 'Vui lòng không bỏ trống tên chuyên mục.',
+            'name.min' => 'Vui lòng nhập tên chuyên mục lớn hơn :min ký tự.',
         ];
     }
 }

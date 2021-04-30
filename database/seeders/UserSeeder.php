@@ -27,15 +27,6 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'desod',
-            'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('chelsea'),
-            'role' => 'author',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        DB::table('users')->insert([
             'name' => 'user',
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('chelsea'),

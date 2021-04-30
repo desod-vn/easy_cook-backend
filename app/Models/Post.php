@@ -4,17 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function category(){
-        return $this->belongsTo('App\Models\Category');
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Category');
     }
+
+    public function ingredients()
+    {
+        return $this->belongsToMany('App\Models\Ingredient');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User');
+    }
+
+    
 }

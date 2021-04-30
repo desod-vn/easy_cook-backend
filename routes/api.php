@@ -21,27 +21,51 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::group([],function() {
     /* **********
     **
-    ** Thư mục 
+    ** Chuyên mục 
     **
     ********** */
+    // Xem tất cả
     Route::get('category', 'App\Http\Controllers\CategoryController@index');
-    // Một thư mục
+    // Xem một
     Route::get('category/{category}', 'App\Http\Controllers\CategoryController@show');
 
+    /* **********
+    **
+    ** Nguyên liệu 
+    **
+    ********** */
+    // Xem tất cả
+    Route::get('ingredient', 'App\Http\Controllers\IngredientController@index');
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
     // Đăng xuất
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+    // Thông tin
+    Route::get('/info', 'App\Http\Controllers\AuthController@information');
 
     /* **********
     **
-    ** Thư mục 
+    ** Chuyên mục 
     **
     ********** */
-    Route::resource('/category', 'App\Http\Controllers\CategoryController')->except(['index', 'show']);
-    // Sửa thư mục
-    Route::post('/category/update/{category}', 'App\Http\Controllers\CategoryController@update');
+    // Thêm
+    Route::post('/category', 'App\Http\Controllers\CategoryController@store');
+    // Xóa
+    Route::delete('/category', 'App\Http\Controllers\CategoryController@delete');
+    // Sửa
+    Route::put('/category/{category}', 'App\Http\Controllers\CategoryController@update');
+
+    /* **********
+    **
+    ** Nguyên liệu 
+    **
+    ********** */
+    // Thêm
+    Route::post('/ingredient', 'App\Http\Controllers\IngredientController@store');
+    // Xóa
+    Route::delete('/ingredient', 'App\Http\Controllers\IngredientController@delete');
+
 
 });
 
