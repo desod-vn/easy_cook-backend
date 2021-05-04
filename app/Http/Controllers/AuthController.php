@@ -73,4 +73,23 @@ class AuthController extends Controller
             'user' => $user,
         ]); 
     }
+
+    // Avatar
+    public function avatar(Request $request, User $user)
+    {
+        $link = 'http://localhost:8000/';
+        if($request->has('image'))
+        {
+            $image = $request->file('image')->store('images');
+            $user->image = $link . $image;
+        }
+        $user->save();
+
+        return response()->json([
+            'message' => 'Update success',
+            'status' => true,
+            $user->image,
+        ]);
+
+    }
 }

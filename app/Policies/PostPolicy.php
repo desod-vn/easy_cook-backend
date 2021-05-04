@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Ingredient;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class IngredientPolicy
+class PostPolicy
 {
     use HandlesAuthorization;
 
@@ -23,7 +23,7 @@ class IngredientPolicy
         return true;
     }
 
-    public function view(User $user, Ingredient $ingredient)
+    public function view(User $user, Post $post)
     {
         //
         return true;
@@ -36,23 +36,23 @@ class IngredientPolicy
         return false;
     }
 
-    public function update(User $user, Ingredient $ingredient)
+    public function update(User $user, Post $post)
     {
         //
         return false;
     }
 
-    public function delete(User $user, Ingredient $ingredient)
+    public function delete(User $user, Post $post)
     {
         //
         return false;
     }
-    public function restore(User $user, Ingredient $ingredient)
+    public function restore(User $user, Post $post)
     {
         return false;
     }
 
-    public function forceDelete(User $user, Ingredient $ingredient)
+    public function forceDelete(User $user, Post $post)
     {
         return false;
     }

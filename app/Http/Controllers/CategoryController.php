@@ -20,14 +20,19 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         //
-        $categoryQuery = Category::query();
+        $per_page = 10;
+        $categoryQuery = Category::query()->latest();
 
         if($request->has('search'))
         {
             $categoryQuery->where('name', 'like', '%' . $request->search . '%');
         }
-
-        $category = $categoryQuery->paginate($request->per_page);
+        if($request->input('per_page'))
+        {
+            $per_page = $request->input('per_page');
+        }
+        
+        $category = $categoryQuery->paginate($per_page);
         
         return response()->json($category);
     }
@@ -53,7 +58,10 @@ class CategoryController extends Controller
     {
         //
         return response()->json([
+            'message' => 'Read success',
+            'status' => true,
             'category' => $category,
+            'posts' => $category->posts,
         ]);
     }
  
@@ -77,8 +85,8 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json([
-            'status' => true,
             'message' => 'Delete success',
+            'status' => true,
         ]);
     }
 }

@@ -23,6 +23,7 @@ Route::group([],function() {
     **
     ** Chuyên mục 
     **
+    
     ********** */
     // Xem tất cả
     Route::get('category', 'App\Http\Controllers\CategoryController@index');
@@ -36,6 +37,19 @@ Route::group([],function() {
     ********** */
     // Xem tất cả
     Route::get('ingredient', 'App\Http\Controllers\IngredientController@index');
+
+    /* **********
+    **
+    ** Nguyên liệu 
+    **
+    ********** */
+    // Xem tất cả
+    Route::get('post', 'App\Http\Controllers\PostController@index');
+    // Xem một
+    Route::get('post/{post}', 'App\Http\Controllers\PostController@show');
+
+
+
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
@@ -43,6 +57,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     // Thông tin
     Route::get('/info', 'App\Http\Controllers\AuthController@information');
+    // Thay avatar
+    Route::post('/avatar/{user}', 'App\Http\Controllers\AuthController@avatar');
+
 
     /* **********
     **
@@ -52,7 +69,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Thêm
     Route::post('/category', 'App\Http\Controllers\CategoryController@store');
     // Xóa
-    Route::delete('/category', 'App\Http\Controllers\CategoryController@delete');
+    Route::delete('/category/{category}', 'App\Http\Controllers\CategoryController@destroy');
     // Sửa
     Route::put('/category/{category}', 'App\Http\Controllers\CategoryController@update');
 
@@ -63,9 +80,21 @@ Route::group(['middleware' => 'auth:api'], function () {
     ********** */
     // Thêm
     Route::post('/ingredient', 'App\Http\Controllers\IngredientController@store');
+    // Sủa
+    Route::put('/ingredient/{ingredient}', 'App\Http\Controllers\IngredientController@update');
+
+    /* **********
+    **
+    ** Công thức
+    **
+    ********** */
+    // Thêm
+    Route::post('/post', 'App\Http\Controllers\PostController@store');
     // Xóa
-    Route::delete('/ingredient', 'App\Http\Controllers\IngredientController@delete');
-
-
+    Route::delete('/post/{post}', 'App\Http\Controllers\PostController@destroy');
+    // Sửa
+    Route::post('/post/{post}', 'App\Http\Controllers\PostController@update');
+    // Kèm nguyên liệu
+    Route::post('/ingredient_post/{post}', 'App\Http\Controllers\PostController@ingredient');
 });
 

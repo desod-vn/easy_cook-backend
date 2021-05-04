@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
-use App\Http\Requests\Ingredient\CreateIngredientRequest;
+use App\Policies\IngredientPolicy;
+use App\Http\Requests\Ingredient\IngredientRequest;
 
 class IngredientController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Category::class, 'category', ['except' => ['index', 'show']]);
+        $this->authorizeResource(Ingredient::class, 'ingredient', ['except' => ['index']]);
     }
     
     public function index(Request $request)
@@ -20,15 +21,17 @@ class IngredientController extends Controller
         if($request->has('search'))
         {
             $ingredientQuery->where('name', 'like', '%' . $request->search . '%');
+        
+            $ingredient = $ingredientQuery->orderBy('name');
         }
 
-        $ingredient = $ingredientQuery->orderBy('name')->get();
+        $ingredient = $ingredientQuery->get();
 
         return response()->json($ingredient);
 
     }
  
-    public function store(CreateIngredientRequest $request)
+    public function store(IngredientRequest $request)
     {
         //
         $ingredient = new Ingredient;
@@ -43,15 +46,17 @@ class IngredientController extends Controller
         ]);
     }
 
-    
-    public function destroy(Ingredient $ingredient)
+    public function update(IngredientRequest $request, Ingredient $ingredient)
     {
         //
-        $ingredient->delete();
+        $ingredient->fill($request->all());
+        $ingredient->save();
 
         return response()->json([
+            'message' => 'Updated success',
             'status' => true,
-            'message' => 'Delete success',
+            'ingredient' => $ingredient,
         ]);
     }
+    
 }
