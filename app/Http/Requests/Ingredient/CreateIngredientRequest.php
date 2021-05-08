@@ -4,7 +4,7 @@ namespace App\Http\Requests\Ingredient;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IngredientRequest extends FormRequest
+class CreateIngredientRequest extends FormRequest
 {
 
     public function authorize()
@@ -24,8 +24,7 @@ class IngredientRequest extends FormRequest
     {
         return [
             'name.required' => 'Vui lòng nhập tên nguyên liệu.',
-            'name.unique' => 'Tên nguyên liệu đã tồn tại vui lòng kiểm tra lại.',
-
+            'name.unique' => 'Tên nguyên liệu đã tồn tại, vui lòng kiểm tra lại.',
 
             'unit.required' => 'Vui lòng nhập đơn vị tính cho nguyên liệu.',
         ];

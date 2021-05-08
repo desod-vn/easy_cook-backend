@@ -12,7 +12,7 @@ class Ingredient extends Model
     
     protected $fillable = [
         'name',
-        'slug',
+        'unit',
     ];
 
     public function posts()

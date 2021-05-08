@@ -18,9 +18,6 @@ class Post extends Model
         'category_id',
     ];
 
-    public function getImageAttribute($value) {
-        return Storage::url($value);
-    }
     
     public function user()
     {

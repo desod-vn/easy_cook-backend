@@ -37,6 +37,6 @@ class User extends Authenticatable
 
     public function ingredients()
     {
-        return $this->belongsToMany('App\Models\Ingredient');
+        return $this->belongsToMany('App\Models\Ingredient')->withPivot('post_id');
     }
 }

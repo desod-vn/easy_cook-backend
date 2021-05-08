@@ -6,6 +6,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Policies\PostPolicy;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Requests\Post\CreatePostRequest;
@@ -42,9 +44,13 @@ class PostController extends Controller
     public function store(CreatePostRequest $request)
     {
         //
+        $image = $request->file('image')->store('images');
+        $link = 'http://localhost:8000/';
+
         $post = new Post;
 
         $post->fill($request->all());
+        $post->image = $link . $image;
         $post->slug = Str::slug($post->name, '-');
 
         $post->save();
@@ -57,15 +63,18 @@ class PostController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show(Request $request, Post $post)
     {
         //
         $ingredient = DB::table('ingredient_post')->where('post_id', $post->id)->get();
+        $like = DB::table('ingredient_user')->where([['post_id', $post->id], ['user_id', $request->user]])->first();
+
 
         return response()->json([
             'message' => 'Read success',
             'status' => true,
             'post' => $post,
+            'like' => $like,
             'ingredients' => $ingredient,
         ]);
     }
@@ -76,7 +85,12 @@ class PostController extends Controller
         //
         $link = 'http://localhost:8000/';
 
-        $image = $request->file('image')->store('images');
+        if($request->has('image'))
+        {
+            $image = $request->file('image')->store('images');
+            Storage::delete(substr($post->image, strlen($link)));
+            $post->image = $link . $image;
+        }
         
         $post->fill($request->all());
         $post->slug = Str::slug($post->name, '-');
@@ -114,6 +128,16 @@ class PostController extends Controller
 
         return response()->json([
             'message' => 'Attach success',
+            'status' => true,
+        ]);
+    }
+
+    public function remove_ingredient(Post $post)
+    {
+        $post->ingredients()->detach();
+
+        return response()->json([
+            'message' => 'Detach success',
             'status' => true,
         ]);
     }

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
 
@@ -27,6 +26,13 @@ class CategorySeeder extends Seeder
         ]);
 
         DB::table('categories')->insert([
+            'name' => 'Ẩm thực',
+            'slug' => Str::slug('Ẩm thực'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
             'name' => 'Du lịch',
             'slug' => Str::slug('Du lịch'),
             'created_at' => Carbon::now(),
@@ -41,7 +47,76 @@ class CategorySeeder extends Seeder
         ]);
 
         DB::table('categories')->insert([
-            'name' => 'Sinh viên',
+            'name' => '2 Sinh viên',
+            'slug' => Str::slug('Sinh viên'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('categories')->insert([
+            'name' => '2 Công nghệ',
+            'slug' => Str::slug('Công nghệ'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '2 Ẩm thực',
+            'slug' => Str::slug('Ẩm thực'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '2 Du lịch',
+            'slug' => Str::slug('Du lịch'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '2 Sách',
+            'slug' => Str::slug('Sách'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '2 Sinh viên',
+            'slug' => Str::slug('Sinh viên'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '1 Công nghệ',
+            'slug' => Str::slug('Công nghệ'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '1 Ẩm thực',
+            'slug' => Str::slug('Ẩm thực'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '1 Du lịch',
+            'slug' => Str::slug('Du lịch'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '1 Sách',
+            'slug' => Str::slug('Sách'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('categories')->insert([
+            'name' => '1 Sinh viên',
             'slug' => Str::slug('Sinh viên'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

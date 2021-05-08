@@ -28,7 +28,6 @@ class UpdatePostRequest extends FormRequest
             'name.required' => 'Tên công thức không được để trống.',
             'name.min' => 'Tên công thức phải chứa ít nhất :min ký tự.',
             'name.max' => 'Tên công thức chứa nhiều nhất :max ký tự.',
-            'name.unique' => 'Tên công thức đã tồn tại, vui lòng kiểm tra lại.',
 
             'content.required' => 'Nội dung công thức không được để trống.',
             'content.min' => 'Nội dung công thức phải chứa ít nhất :min ký tự.',

@@ -56,10 +56,17 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Đăng xuất
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     // Thông tin
-    Route::get('/info', 'App\Http\Controllers\AuthController@information');
+    Route::get('/info', 'App\Http\Controllers\UserController@information');
     // Thay avatar
-    Route::post('/avatar/{user}', 'App\Http\Controllers\AuthController@avatar');
-
+    Route::post('/avatar/{user}', 'App\Http\Controllers\UserController@avatar');
+    // Kèm nguyên liệu
+    Route::post('/ingredient_user/{user}', 'App\Http\Controllers\UserController@ingredient');
+    // Gợi ý
+    Route::get('/love/', 'App\Http\Controllers\UserController@get_love');
+    // Lấy nguyên liệu
+    Route::get('/ingredient_user/{user}', 'App\Http\Controllers\UserController@get_ingredient');
+    // Xóa kèm nguyên liệu
+    Route::delete('/ingredient_user/{user}', 'App\Http\Controllers\UserController@remove_ingredient');
 
     /* **********
     **
@@ -82,6 +89,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/ingredient', 'App\Http\Controllers\IngredientController@store');
     // Sủa
     Route::put('/ingredient/{ingredient}', 'App\Http\Controllers\IngredientController@update');
+    // Xem một
+    Route::get('/ingredient/{ingredient}', 'App\Http\Controllers\IngredientController@show');
+    // Score
+    Route::get('/score/{ingredient}', 'App\Http\Controllers\IngredientController@score_ingredient');
+
 
     /* **********
     **
@@ -96,5 +108,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/post/{post}', 'App\Http\Controllers\PostController@update');
     // Kèm nguyên liệu
     Route::post('/ingredient_post/{post}', 'App\Http\Controllers\PostController@ingredient');
+    // Xóa kèm nguyên liệu
+    Route::delete('/ingredient_post/{post}', 'App\Http\Controllers\PostController@remove_ingredient');
+
 });
 

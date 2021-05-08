@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'admin',
             'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('chelsea'),
+            'password' => Hash::make('123123'),
             'role' => 'admin',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'user',
             'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('chelsea'),
+            'password' => Hash::make('123123'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
