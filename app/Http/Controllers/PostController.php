@@ -66,9 +66,18 @@ class PostController extends Controller
     public function show(Request $request, Post $post)
     {
         //
-        $ingredient = DB::table('ingredient_post')->where('post_id', $post->id)->get();
-        $like = DB::table('ingredient_user')->where([['post_id', $post->id], ['user_id', $request->user]])->first();
-
+        $ingredient = DB::table('ingredient_post')
+            ->where('post_id', $post->id)
+            ->get();
+        $like = DB::table('ingredient_user')
+            ->where([['post_id', $post->id], ['user_id', $request->user]])
+            ->first();
+        $comment = DB::table('comments')
+            ->select('comments.id', 'content', 'users.name', 'users.image', 'comments.created_at')
+            ->join('users', 'comments.user_id', 'users.id')
+            ->where([['post_id', $post->id]])
+            ->latest()
+            ->get();
 
         return response()->json([
             'message' => 'Read success',
@@ -76,6 +85,7 @@ class PostController extends Controller
             'post' => $post,
             'like' => $like,
             'ingredients' => $ingredient,
+            'comment' => $comment,
         ]);
     }
 
@@ -85,6 +95,8 @@ class PostController extends Controller
         //
         $link = 'http://localhost:8000/';
 
+        $post->fill($request->all());
+
         if($request->has('image'))
         {
             $image = $request->file('image')->store('images');
@@ -92,9 +104,8 @@ class PostController extends Controller
             $post->image = $link . $image;
         }
         
-        $post->fill($request->all());
         $post->slug = Str::slug($post->name, '-');
-        $post->image = $link . $image;
+
 
         $post->save();
 

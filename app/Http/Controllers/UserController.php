@@ -54,10 +54,40 @@ class UserController extends Controller
         ]);
     }
 
+    public function post(Request $request, User $user)
+    {
+        $user->posts()->toggle($request->post);
+
+        return response()->json([
+            'message' => 'Success',
+            'status' => true,
+        ]);
+    }
+
+    public function get_post(User $user)
+    {
+        $post = DB::table('post_user')
+                ->select('post_id')
+                ->where('user_id', $user->id)
+                ->get();
+
+        return response()->json([
+            'message' => 'Success',
+            'status' => true,
+            'post' => $post
+        ]);
+    }
+
 
     
     public function get_ingredient(User $user)
     {
+
+        $listStore =  DB::table('post_user')
+                ->select('posts.name', 'posts.slug', 'posts.image', 'posts.id')
+                ->join('posts', 'posts.id', '=', 'post_user.post_id')
+                ->where('user_id', $user->id)
+                ->get();
 
         $min = 0;
         $ingredients = DB::table('ingredient_user')
@@ -120,6 +150,7 @@ class UserController extends Controller
             'status' => true,
             'ingredients' => $ingredients,
             'high' => $high,
+            'listStore' => $listStore,
         ]);
     }
 

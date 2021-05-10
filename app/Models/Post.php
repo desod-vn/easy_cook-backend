@@ -19,9 +19,9 @@ class Post extends Model
     ];
 
     
-    public function user()
+    public function comments()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->hasMany('App\Models\Comment');
     }
 
     public function categories()

@@ -23,7 +23,6 @@ Route::group([],function() {
     **
     ** Chuyên mục 
     **
-    
     ********** */
     // Xem tất cả
     Route::get('category', 'App\Http\Controllers\CategoryController@index');
@@ -40,7 +39,7 @@ Route::group([],function() {
 
     /* **********
     **
-    ** Nguyên liệu 
+    ** Công thức
     **
     ********** */
     // Xem tất cả
@@ -67,6 +66,15 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/ingredient_user/{user}', 'App\Http\Controllers\UserController@get_ingredient');
     // Xóa kèm nguyên liệu
     Route::delete('/ingredient_user/{user}', 'App\Http\Controllers\UserController@remove_ingredient');
+    // Kèm bài viết
+    Route::post('/post_user/{user}', 'App\Http\Controllers\UserController@post');
+    // Kèm bài viết
+    Route::get('/post_user/{user}', 'App\Http\Controllers\UserController@get_post');
+    // Gửi comment
+    Route::post('/comment', 'App\Http\Controllers\CommentController@store');
+    // Xóa comment
+    Route::delete('/comment/{comment}', 'App\Http\Controllers\CommentController@destroy');
+
 
     /* **********
     **
