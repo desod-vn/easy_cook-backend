@@ -14,7 +14,7 @@ class IngredientController extends Controller
     {
         $this->authorizeResource(Ingredient::class, 'ingredient', ['except' => ['index']]);
     }
-    
+
     public function index(Request $request)
     {
         //
@@ -23,7 +23,7 @@ class IngredientController extends Controller
         if($request->has('search'))
         {
             $ingredientQuery->where('name', 'like', '%' . $request->search . '%');
-        
+
             $ingredient = $ingredientQuery->orderBy('name');
         }
 
@@ -42,7 +42,7 @@ class IngredientController extends Controller
             'ingredient' => $ingredient,
         ]);
     }
- 
+
     public function store(IngredientRequest $request)
     {
         //
@@ -72,46 +72,4 @@ class IngredientController extends Controller
     }
 
 
-    public function score_ingredient(Request $request, Ingredient $ingredient)
-    {
-
-        $number = DB::table('ingredient_post')
-                ->where([['ingredient_id', $ingredient->id]])
-                ->count();
-
-        $weight = DB::table('ingredient_post')
-                ->select('quantity')
-                ->where([['ingredient_id', $ingredient->id]])
-                ->get();
-
-        $avg = DB::table('ingredient_post')
-                ->where([['ingredient_id', $ingredient->id]])
-                ->avg('quantity');
-
-        $total = DB::table('ingredient_user')
-                ->join('ingredient_post', 'ingredient_user.post_id', '=', 'ingredient_post.post_id')
-                ->where([
-                    ['ingredient_user.ingredient_id', $ingredient->id],
-                    ['ingredient_user.user_id', $request->user],
-                    ['ingredient_post.main', 1]
-                ])
-                ->avg('quantity');
-
-
-        $result = 0;
-        for($i = 0; $i < $number; $i++)
-        {
-            $result += pow((int)$weight[$i]->quantity - $avg, 2);
-        }
-
-        $result = sqrt((1 / $number) * $result);
-
-        return response()->json([
-            'message' => 'Success',
-            'status' => true,
-            'result' => $result,
-            'total' => $total,
-        ]);
-    }
-    
 }

@@ -21,7 +21,7 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::group([],function() {
     /* **********
     **
-    ** Chuyên mục 
+    ** Chuyên mục
     **
     ********** */
     // Xem tất cả
@@ -31,7 +31,7 @@ Route::group([],function() {
 
     /* **********
     **
-    ** Nguyên liệu 
+    ** Nguyên liệu
     **
     ********** */
     // Xem tất cả
@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     /* **********
     **
-    ** Chuyên mục 
+    ** Chuyên mục
     **
     ********** */
     // Thêm
@@ -90,7 +90,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     /* **********
     **
-    ** Nguyên liệu 
+    ** Nguyên liệu
     **
     ********** */
     // Thêm
@@ -99,9 +99,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/ingredient/{ingredient}', 'App\Http\Controllers\IngredientController@update');
     // Xem một
     Route::get('/ingredient/{ingredient}', 'App\Http\Controllers\IngredientController@show');
-    // Score
-    Route::get('/score/{ingredient}', 'App\Http\Controllers\IngredientController@score_ingredient');
-
+    
 
     /* **********
     **
@@ -120,4 +118,3 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::delete('/ingredient_post/{post}', 'App\Http\Controllers\PostController@remove_ingredient');
 
 });
-

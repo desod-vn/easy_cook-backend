@@ -37,7 +37,7 @@ class PostController extends Controller
         }
 
         $post = $postQuery->paginate($per_page);
-        
+
         return response()->json($post);
     }
 
@@ -67,11 +67,15 @@ class PostController extends Controller
     {
         //
         $ingredient = DB::table('ingredient_post')
+            ->select('ingredients.name', 'ingredients.unit', 'quantity', 'main', 'ingredient_id')
+            ->join('ingredients', 'ingredients.id', 'ingredient_post.ingredient_id')
             ->where('post_id', $post->id)
             ->get();
+
         $like = DB::table('ingredient_user')
             ->where([['post_id', $post->id], ['user_id', $request->user]])
             ->first();
+
         $comment = DB::table('comments')
             ->select('comments.id', 'content', 'users.name', 'users.image', 'comments.created_at')
             ->join('users', 'comments.user_id', 'users.id')
@@ -103,7 +107,7 @@ class PostController extends Controller
             Storage::delete(substr($post->image, strlen($link)));
             $post->image = $link . $image;
         }
-        
+
         $post->slug = Str::slug($post->name, '-');
 
 
@@ -131,8 +135,6 @@ class PostController extends Controller
     public function ingredient(Request $request, Post $post)
     {
         $post->ingredients()->attach($request->ingredient, [
-            'name' => $request->name,
-            'unit' => $request->unit,
             'quantity' => $request->quantity,
             'main' => $request->main,
         ]);

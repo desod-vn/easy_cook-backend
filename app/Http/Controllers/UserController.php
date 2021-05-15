@@ -11,18 +11,18 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    
+
     public function information()
     {
         $user = Auth::user();
- 
+
         return response()->json([
             'status' => true,
             'user' => $user,
-        ]); 
+        ]);
     }
- 
-     
+
+
     public function avatar(Request $request, User $user)
     {
         $link = 'http://localhost:8000/';
@@ -33,7 +33,7 @@ class UserController extends Controller
             $user->image = $link . $image;
         }
         $user->save();
- 
+
         return response()->json([
             'message' => 'Update success',
             'status' => true,
@@ -79,17 +79,16 @@ class UserController extends Controller
     }
 
 
-    
+
     public function get_ingredient(User $user)
     {
 
         $listStore =  DB::table('post_user')
                 ->select('posts.name', 'posts.slug', 'posts.image', 'posts.id')
                 ->join('posts', 'posts.id', '=', 'post_user.post_id')
-                ->where('user_id', $user->id)
+                ->where([['user_id', $user->id], ['posts.deleted_at', null]] )
                 ->get();
 
-        $min = 0;
         $ingredients = DB::table('ingredient_user')
                 ->select('ingredients.name', DB::raw('count(*) as total, ingredients.id'))
                 ->join('ingredients', 'ingredients.id', '=', 'ingredient_user.ingredient_id')
@@ -102,7 +101,7 @@ class UserController extends Controller
             $per_post = DB::table('ingredient_post');
             $result = 0;
 
-            $n = $per_post //Số công thức chứa nl 
+            $n = $per_post //Số công thức chứa nl
                 ->where([['ingredient_id', $value->id]])
                 ->count();
 
@@ -128,7 +127,7 @@ class UserController extends Controller
                 {
                     $result += pow(((int)$gK_i[$i]->quantity - $gK), 2);
                 }
-    
+
                 $oK = sqrt((1 / $n) * $result);
 
                 $score = $value->total * $wK;
@@ -137,20 +136,33 @@ class UserController extends Controller
 
 
         }
-        
+
         $high = array();
 
         for($i = 0; $i < count($ingredients); $i++)
         {
-            $high[$ingredients[$i]->mark] = $ingredients[$i]->id;
+            $high[$ingredients[$i]->mark * 100] = $ingredients[$i]->id;
         }
         ksort($high);
+
+        $listLiked =  DB::table('ingredient_user')
+              ->select('post_id')
+              ->join('posts', 'posts.id', 'ingredient_user.post_id')
+              ->where([
+                  ['ingredient_user.user_id', $user->id],
+                  ['posts.deleted_at', null]
+              ])
+              ->groupBy('post_id')
+              ->get();
+
+
         return response()->json([
             'message' => 'Success',
             'status' => true,
             'ingredients' => $ingredients,
             'high' => $high,
             'listStore' => $listStore,
+            'listLiked' => $listLiked,
         ]);
     }
 
@@ -176,15 +188,14 @@ class UserController extends Controller
             ->select('post_id', 'posts.slug', 'image', 'posts.name', 'categories.name as category')
             ->join('posts', 'posts.id', '=', 'ingredient_post.post_id')
             ->join('categories', 'posts.category_id', '=', 'categories.id')
-            ->where([['ingredient_id', $request->id], ['main', 1]])
+            ->where([['ingredient_id', $request->id], ['main', 1], ['posts.deleted_at', null]])
             ->paginate(5);
-        
+
         return response()->json([
             'message' => 'Detach success',
             'status' => true,
             'love' => $love,
         ]);
-        
+
     }
 }
-
